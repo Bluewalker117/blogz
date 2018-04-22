@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>New User Signup</h2>
+
+<form action="/signup" method="POST">
+    <label>
+        Enter your new user name, using 3-20 characters:
+        <input type="text" name="user_name" value="{{user_name}}"/>
+    </label>
+    <p class="error">{{user_name_error}}</p>
+        <br>
+    <label>
+        Enter your new password, using 3-20 characters:
+        <input type="password" name="new_password" value="{{new_password}}"/>
+    </label>
+    <p class="error">{{new_password_error}}</p>
+        <br>
+    <label>
+        Enter your new password again:
+        <input type="password" name="verify_password" value="{{verify_password}}"/>
+    </label>
+    <p class="error">{{verify_password_error}}</p>
+    <br><br>
+    <input type="submit" value="Create New User ID"/>
+</form>
+
+
+{% endblock %}

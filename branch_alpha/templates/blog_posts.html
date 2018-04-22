@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <a href="/newpost">Add a New Blog Entry</a>
+    <form action="/newpost" method="post">
+
+    <hr>
+
+    <ul style="list-style-type:none">
+        {% for blog in blogs %}
+            <li>
+                <a href="/blog_display?id={{blog.id}}">
+                    <h2>{{blog.title}}</h2>
+                </a>
+                    <p>{{blog.body}}</p>
+                
+            </li>
+        {% endfor %}
+    </ul>
+    
+{% endblock %}
