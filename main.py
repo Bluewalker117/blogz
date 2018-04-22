@@ -39,13 +39,29 @@ class User(db.Model):
 
 @app.route("/login", methods=['GET','POST'])
 def login():
+    if request.method == 'POST':
+        user = request.form['user']
+        password = request.form['password']
+        user2 = User.query.filter_by(username = user).first()
+        
+        if user2 and user2.password == password:
+            # TODO remember user has logged in
+            return redirect('/')
+        else:
+            return '<p>Failed</p>'
     return render_template('login.html')
 
 
 #@app.route("/index", methods=['GET', 'POST'])
 
-@app.route("/signup", methods=['POST', 'GET'])
+@app.route("/signup", methods=['GET', 'POST'])
 def signup():
+    if request.method == 'POST':
+        nuser = request.form['user_name']
+        npassword = request.form['new_password']
+        vpassword = request.form['verify_password']
+
+        
     return render_template('signup.html')
 
 

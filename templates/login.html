@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>Existing User Login</h2>h2>
-    <p>Not an exisiting user?  Create a new user account <a href="/singup">here</a>.</p>
+    <h2>Existing User Login</h2>
+    <p>Not an exisiting user?  Create a new user account <a href="/signup">here</a>.</p>
     
     <hr>
 
@@ -17,7 +17,7 @@
             <tr>
                 <td><label for="password">Password</label></td>
                 <td>
-                    <input name="password" type="password">
+                    <input name="password" type="password" value="{{ password }}">
                 </td>
             </tr>
         </table>
