@@ -20,7 +20,7 @@ class Blog(db.Model):
     def __init__(self, title, body, user):
         self.title = title
         self.body = body
-        self.user = user
+       # self.user = user
 
 class User(db.Model):
 
@@ -38,11 +38,15 @@ class User(db.Model):
 
 
 @app.route("/login", methods=['GET','POST'])
+def login():
+    return render_template('login.html')
 
 
-@app.route("/index", methods=['GET', 'POST'])
+#@app.route("/index", methods=['GET', 'POST'])
 
 @app.route("/signup", methods=['POST', 'GET'])
+def signup():
+    return render_template('signup.html')
 
 
 @app.route("/newpost", methods=['GET','POST'])
@@ -75,10 +79,10 @@ def newpost():
     else:
         return render_template('newpost.html')
 
-@app.route("/blog", methods=['GET'])
-def blog():
-    blogs = Blog.query.all()
-    return render_template('blog_posts.html', blogs=blogs)
+#@app.route("/blog", methods=['GET'])
+#def blog():
+#    blogs = Blog.query.all()
+#    return render_template('blog_posts.html', blogs=blogs)
     
 @app.route("/blog_display/", methods=['GET'])
 def blog_display():
