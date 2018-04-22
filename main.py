@@ -5,25 +5,44 @@ app = Flask(__name__)
 
 app.config['DEBUG'] = True  
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://build_a_blog:build_a_blog@localhost:8889/build_a_blog'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://blogz:blogz@localhost:8889/blogz'
 app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
 
-#creating DB in Python
 class Blog(db.Model):
     
     id = db.Column(db.Integer, primary_key=True) #will give a unique ID to each databse entry
     title = db.Column(db.String(120))
     body = db.Column(db.String(600))
+    #user_id = db.Column(db.Integer, db.ForeignKey('User.id')) 
 
 
-    def __init__(self, title, body):
+    def __init__(self, title, body, user):
         self.title = title
         self.body = body
+        self.user = user
+
+class User(db.Model):
+
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(120), unique=True)
+    password = db.Column(db.String(120))
+    #blogs = db.relationship('Blog', backref='User_id')
+
+
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
 
 
 
 
+@app.route("/login", methods=['GET','POST'])
+
+
+@app.route("/index", methods=['GET', 'POST'])
+
+@app.route("/signup", methods=['POST', 'GET'])
 
 
 @app.route("/newpost", methods=['GET','POST'])
