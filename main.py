@@ -34,7 +34,17 @@ class User(db.Model):
         self.username = username
         self.password = password
 
+def valid_length(text):    
+    if 2 < len(text) < 21:
+        return True
+    else:
+        return False 
 
+def validate_password(password, password_2):
+    if (password) == (password_2):
+        return True
+    else:
+        return False
 
 
 @app.route("/login", methods=['GET','POST'])
@@ -61,7 +71,64 @@ def signup():
         npassword = request.form['new_password']
         vpassword = request.form['verify_password']
 
-        
+        nuser_error = ""
+        npassword_error = ""
+        vpassword_error = ""
+
+        u_space_c = nuser.count(" ")
+        p_space_c = npassword.count(" ")
+    
+        if nuser.strip()=="":
+            nuser_error = "No"
+            return render_template("signup.html", user_name_error = "Please enter a user name.")
+        if u_space_c > 0:
+            nuser_error = "No"
+            return render_template("signup.html", user_name = nuser, user_name_error = 
+        "You cannot have spaces in your user name.  Please try a new name.")
+        else:
+            nuser = nuser
+            if valid_length(nuser)== False:
+                nuser_error = "No"
+                return render_template("signup.html", user_name = nuser, user_name_error = 
+        "The name you have entered is not the required 3-20 characters in length.  Please try a new name.")
+
+        if npassword.strip()=="":
+            npassword_error = "No"
+            return render_template("signup.html", user_name = nuser, new_password_error = 
+        "Please enter a password.")
+        if p_space_c > 0:
+            npassword_error = "No"
+            return render_template("signup.html", user_name = nuser, new_password_error = 
+        "You cannot have spaces in your password. Please enter a password.")
+        else:
+            npassword = npassword
+            if valid_length(npassword)== False:
+                npassword_error = "No"
+                return render_template("signup.html", user_name = nuser, new_password_error = 
+        "The password you have entered is not the required 3-20 characters in length.  Please try a new password.")
+
+        if vpassword.strip()=="":
+            vpassword_error = "No"
+            return render_template("signup.html", user_name = nuser, verify_password_error = 
+        "Please re-enter your password for verification.")
+        else:
+            npassword = npassword
+            vpassword = vpassword
+            if validate_password(npassword, vpassword)==False:
+                vpassword_error = "No"
+                return render_template("signup.html", user_name = nuser, verify_password_error =
+        "Your passwords did not match.")
+
+        if not nuser_error and not npassword_error and not vpassword_error:
+            existing_user = User.query.filter_by(username = nuser).first()
+            if not existing_user:
+                new_user = User(nuser, npassword)
+                db.session.add(new_user)
+                db.session.commit()
+                return redirect('/')
+            else:
+                return "<p>User already exists</p>"
+    
     return render_template('signup.html')
 
 
