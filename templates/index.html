@@ -1,14 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <a href="/newpost">Add a New Blog Entry</a>
-    <form action="/newpost" method="post">
 
-    <hr>
 
     
-    <h2>Index</h2>
-    <p>goes here</p>
+    <h2>List of Blog Posters</h2>
+    
+    <ul style="list-style-type:none">
+        {% for user in users %}
+            <li>
+                <a href="/singleuser?id={{user.id}}">
+                <p>{{user.username}}</p>
+                
+            </li>
+        {% endfor %}
+    </ul>
+    
    
 
 
