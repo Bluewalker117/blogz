@@ -56,11 +56,26 @@ def login():
         user2 = User.query.filter_by(username = user).first()
         
         if user2 and user2.password == password:
-            # TODO remember user has logged in
+            session['user'] = user
+            flash("Logged In")
+            return redirect('/newpost') # TODO need to fix this; page not loading correctly due to not having a user ID # to reference
+        if user2 == None:
+            flash('This user has not been registered')
             return redirect('/')
         else:
-            return '<p>Failed</p>'
+            flash('User name or password is incorrect')
     return render_template('login.html')
+
+@app.route("/logout", methods = ['GET'])
+def logout():
+    del session['user']
+    return redirect('/')
+
+@app.before_request
+def login_required():
+    allowed_routes = ["login", "signup"]
+    if request.endpoint not in allowed_routes and 'user' not in session:
+        return redirect('/login')
 
 
 #@app.route("/index", methods=['GET', 'POST'])
@@ -126,6 +141,7 @@ def signup():
                 new_user = User(nuser, npassword)
                 db.session.add(new_user)
                 db.session.commit()
+                session['user'] = nuser
                 return redirect('/')
             else:
                 return "<p>User already exists</p>"
