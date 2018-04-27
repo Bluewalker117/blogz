@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, render_template, flash
+from flask import Flask, request, redirect, render_template, flash, session
 from flask_sqlalchemy import SQLAlchemy 
 
 app = Flask(__name__)
@@ -14,20 +14,21 @@ class Blog(db.Model):
     id = db.Column(db.Integer, primary_key=True) #will give a unique ID to each databse entry
     title = db.Column(db.String(120))
     body = db.Column(db.String(600))
-    #user_id = db.Column(db.Integer, db.ForeignKey('User.id')) 
+    user_id = db.Column(db.Integer, db.ForeignKey('User.id')) 
 
 
     def __init__(self, title, body, user):
         self.title = title
         self.body = body
-       # self.user = user
+        self.user = user
 
 class User(db.Model):
 
+    __tablename__ = 'User'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(120), unique=True)
     password = db.Column(db.String(120))
-    #blogs = db.relationship('Blog', backref='User_id')
+    blogs = db.relationship('Blog', backref='user')
 
 
     def __init__(self, username, password):
