@@ -186,7 +186,7 @@ def newpost():
     else:
         return render_template('newpost.html')
 
-@app.route("/blog", methods=['GET'])
+@app.route("/blog", methods=['GET', 'POST'])
 def blog():
     blogs = Blog.query.all()
     return render_template('blog_posts.html', blogs=blogs)

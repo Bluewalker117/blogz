@@ -12,8 +12,11 @@
                 <a href="/blog_display?id={{blog.id}}">
                     <h2>{{blog.title}}</h2>
                 </a>
-                Author:
-                <i>{{blog.user.username}}</i>
+                
+                Author: 
+                <a href="/singleuser?id={{blog.user_id}}">
+                    <i>{{blog.user.username}}</i>
+                </a>
             </p>
                     <p>{{blog.body}}</p>
                 
