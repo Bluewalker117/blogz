@@ -58,10 +58,10 @@ def login():
         if user2 and user2.password == password:
             session['user'] = user
             flash("Logged In")
-            return redirect('/newpost') # TODO need to fix this; page not loading correctly due to not having a user ID # to reference
+            return redirect('/newpost')
         if user2 == None:
             flash('This user has not been registered')
-            return redirect('/')
+            return redirect('/login')
         else:
             flash('User name or password is incorrect')
     return render_template('login.html')
@@ -73,7 +73,7 @@ def logout():
 
 @app.before_request
 def login_required():
-    allowed_routes = ["login", "signup"]
+    allowed_routes = ["login", "signup", "blog", "index"]
     if request.endpoint not in allowed_routes and 'user' not in session:
         return redirect('/login')
 
@@ -142,9 +142,9 @@ def signup():
                 db.session.add(new_user)
                 db.session.commit()
                 session['user'] = nuser
-                return redirect('/')
+                return redirect('/newpost')
             else:
-                return "<p>User already exists</p>"
+                flash("User already exists")
     
     return render_template('signup.html')
 
@@ -155,6 +155,7 @@ def newpost():
     if request.method == 'POST':
         new_blog_body = request.form['blog_body']
         new_blog_title = request.form['blog_title']
+        
 
         error= ""
                  
@@ -167,7 +168,8 @@ def newpost():
         if not error:
             blog_title = request.form['blog_title']
             blog_body = request.form['blog_body']
-            new_blog = Blog(blog_title, blog_body)
+            user = User.query.filter_by(username=session['user']).first()
+            new_blog = Blog(blog_title, blog_body, user)
             db.session.add(new_blog)
             db.session.commit()
             new = db.session.query(Blog).order_by(Blog.id.desc()).first()
@@ -179,10 +181,10 @@ def newpost():
     else:
         return render_template('newpost.html')
 
-#@app.route("/blog", methods=['GET'])
-#def blog():
-#    blogs = Blog.query.all()
-#    return render_template('blog_posts.html', blogs=blogs)
+@app.route("/blog", methods=['GET'])
+def blog():
+    blogs = Blog.query.all()
+    return render_template('blog_posts.html', blogs=blogs)
     
 @app.route("/blog_display/", methods=['GET'])
 def blog_display():
@@ -192,8 +194,7 @@ def blog_display():
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
-    blogs = Blog.query.all()
-    return render_template('blog_posts.html', blogs=blogs)
+    return redirect("/blog")
 
 app.secret_key = 'key'
 
