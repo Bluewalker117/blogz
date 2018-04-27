@@ -73,7 +73,7 @@ def logout():
 
 @app.before_request
 def login_required():
-    allowed_routes = ["login", "signup", "blog", "index", "show_users", "user_display"]
+    allowed_routes = ["login", "signup", "blog", "index"]
     if request.endpoint not in allowed_routes and 'user' not in session:
         return redirect('/login')
 
@@ -83,7 +83,6 @@ def show_users():
     y= request.args.get('id')
     x= User.query.all()
     return render_template('index.html', users=x) 
-
 
 @app.route("/signup", methods=['GET', 'POST'])
 def signup():
@@ -186,7 +185,7 @@ def newpost():
     else:
         return render_template('newpost.html')
 
-@app.route("/blog", methods=['GET', 'POST'])
+@app.route("/blog", methods=['GET'])
 def blog():
     blogs = Blog.query.all()
     return render_template('blog_posts.html', blogs=blogs)
@@ -195,15 +194,7 @@ def blog():
 def blog_display():
     y= request.args.get('id')
     x= Blog.query.get(y)
-    z= User.query.get(y)
-    return render_template('blog_display.html', blog=x, user=z)   
-
-@app.route("/singleuser/", methods=["GET"])
-def user_display():
-    y= request.args.get('id')
-    x= Blog.query.filter_by(user_id=y)
-    z= User.query.filter_by(id=y).first()
-    return render_template('singleuser.html', blogs=x, user=z) 
+    return render_template('blog_display.html', blog=x)    
 
 @app.route('/', methods=['POST', 'GET'])
 def index():

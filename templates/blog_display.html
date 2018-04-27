@@ -1,16 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+    <a href="/newpost">Add a New Blog Entry</a>
+    <form action="/newpost" method="post">
 
   
 
     
     <h2>{{blog.title}}</h2>
-    Author: 
-    <a href="/singleuser?id={{blog.user_id}}">
-        <i>{{blog.user.username}}</i>
-    </a>
     <p>{{blog.body}}</p>
    
 

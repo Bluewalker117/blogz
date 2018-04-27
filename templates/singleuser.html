@@ -1,27 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <a href="/newpost">Add a New Blog Entry</a>
+    <form action="/newpost" method="post">
 
+    <hr>
 
+    <p>Singler User Templete this Is</p>
+    <h2>{{blog.title}}</h2>
+    <p>{{blog.body}}</p>
+    
+   
 
-    <h3>Posts by <u style="color:green">{{user.username}}</u></h3>
 
     
-
-    <ul style="list-style-type:none">
-        {% for blog in blogs %}
-            <li>
-                <p>
-                    <a href="/blog_display?id={{blog.id}}">
-                        <h2>{{blog.title}}</h2>
-                    </a>
-                   
-                </p>
-                        <p>{{blog.body}}</p>
-                    
-            </li>
-        {% endfor %}
-    </ul>
+  
    
 
 
