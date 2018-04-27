@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <a href="/newpost">Add a New Blog Entry</a>
-    <form action="/newpost" method="post">
+
 
   
 
     
     <h2>{{blog.title}}</h2>
+    <p>Posted by: {{blog.user.username}}</p>
     <p>{{blog.body}}</p>
    
 

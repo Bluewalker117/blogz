@@ -69,11 +69,12 @@ def login():
 @app.route("/logout", methods = ['GET'])
 def logout():
     del session['user']
+    flash('You have logged out')
     return redirect('/')
 
 @app.before_request
 def login_required():
-    allowed_routes = ["login", "signup", "blog", "index"]
+    allowed_routes = ["login", "signup", "blog", "index", "show_users", "user_display"]
     if request.endpoint not in allowed_routes and 'user' not in session:
         return redirect('/login')
 
@@ -194,7 +195,8 @@ def blog():
 def blog_display():
     y= request.args.get('id')
     x= Blog.query.get(y)
-    return render_template('blog_display.html', blog=x)    
+    z= User.query.get(y)
+    return render_template('blog_display.html', blog=x, user=z) 
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
