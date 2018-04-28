@@ -6,9 +6,18 @@
 
     <hr>
 
-    <p>Singler User Templete this Is</p>
-    <h2>{{blog.title}}</h2>
-    <p>{{blog.body}}</p>
+    <h2>Posts by: {{user.username}}</h2>
+    <ul style="list-style-type:none">
+        {% for blog in blogs %}
+            <li>
+                <a href="/blog_display?id={{blog.id}}">
+                    <h2>{{blog.title}}</h2>
+                </a>
+                    <p>{{blog.body}}</p>
+                
+            </li>
+        {% endfor %}
+    </ul> 
     
    
 

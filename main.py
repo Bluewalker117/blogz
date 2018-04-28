@@ -198,6 +198,13 @@ def blog_display():
     z= User.query.get(y)
     return render_template('blog_display.html', blog=x, user=z) 
 
+@app.route("/singleuser/", methods=["GET"])
+def user_display():
+    y= request.args.get('id')
+    x= Blog.query.filter_by(user_id=y)
+    z= User.query.filter_by(id=y).first()
+    return render_template('singleuser.html', blogs=x, user=z)
+    
 @app.route('/', methods=['POST', 'GET'])
 def index():
     return redirect("/blog")
